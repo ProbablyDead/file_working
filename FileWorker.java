@@ -4,7 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
-import  java.io.FileOutputStream;
+import java.io.FileOutputStream;
 
 public class FileWorker {
   private HashMap<Integer, Integer> table = new HashMap<>();
@@ -27,13 +27,19 @@ public class FileWorker {
     this.outputPath = outputPath;
   }
 
+  private boolean isLatinLetter (int c) {
+    return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+  }
+
   private void addValue (int c) {
     if (table.containsKey(c)) {
       int count = table.get(c);
       table.put(c, ++count);
     }
     else {
-      table.put(c, 1);
+      if (isLatinLetter(c)) {
+        table.put(c, 1);
+      }
     }
   }
 
