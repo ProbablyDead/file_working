@@ -4,12 +4,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
+import javax.swing.SwingWorker;
 import java.io.FileOutputStream;
 
 public class FileWorker {
   private HashMap<Integer, Integer> table = new HashMap<>();
   private String inputPath;
   private String outputPath;
+  private double inputFileSize;
+  private long addedSymbols = 0;
+  private GUI bar;
 
   FileWorker () {
     Scanner in = new Scanner(System.in);
@@ -41,6 +45,7 @@ public class FileWorker {
         table.put(c, 1);
       }
     }
+    bar.updateBar((int)(++addedSymbols/inputFileSize*100));
   }
 
   private void updateMapWtString (String str) {
@@ -57,26 +62,49 @@ public class FileWorker {
     return result;
   }
 
-  public void checkFile () {
-    BufferedReader inputBuf;
-    FileOutputStream outputStream;
+  public void checkFile () throws IOException {
+        
+      bar = new GUI(inputPath);
+  
+      new SwingWorker<Void,Void>() {
 
-      try {
-        inputBuf = new BufferedReader(new FileReader(new File(inputPath)));
-      }
-      catch (IOException e) {
-        System.out.println("Input file's path is invalid");
-        return;
-      }
+        protected Void doInBackground() throws Exception {
+          BufferedReader inputBuf;
+          FileOutputStream outputStream;
+          
+          try {
+            File input = new File(inputPath);
+            inputFileSize = input.length();
+            inputBuf = new BufferedReader(new FileReader(input));
+          }
+          catch (IOException e) {
+            throw new IOException("Input file's path is invalid");
+          }
 
-      inputBuf.lines().forEach(str -> updateMapWtString(str));
-      try {
-        outputStream = new FileOutputStream(outputPath);
-        outputStream.write(getResultString().getBytes());
-        outputStream.close();
-      }
-      catch (IOException e) {
-        System.out.println("Output file's path is invalid");
-      }
+          try {
+            outputStream = new FileOutputStream(outputPath);
+          }
+          catch (IOException e) {
+            throw new IOException("Output file's path is invalid");
+          }
+
+          String line = inputBuf.readLine();
+          while (line != null) {
+            updateMapWtString(line);
+            line = inputBuf.readLine();
+          }
+          
+          inputBuf.close();
+          outputStream.write(getResultString().getBytes());
+          outputStream.close();
+          bar.setVisible(false);
+
+          return null;
+        };
+
+        protected void done () {
+          System.out.println("fin");
+        };
+    }.execute();
   }
 }
