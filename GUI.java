@@ -51,7 +51,7 @@ public class GUI extends JFrame {
     super(fileName);
 
     Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-    setBounds(screen.width/2 + 50, screen.height/2 + 50, 500, 300); 
+    setBounds(screen.width/2 + 50, screen.height/2 + 50, 400, 70); 
 
     progressBar = new JProgressBar();
     progressBar.setStringPainted(true);
@@ -60,10 +60,9 @@ public class GUI extends JFrame {
     progressBar.setValue(0);
 
     panelForBar = getContentPane();
-    panelForBar.add(progressBar, BorderLayout.NORTH);
+    panelForBar.add(progressBar, BorderLayout.CENTER);
     setContentPane(panelForBar);
 
-    setVisible(true);
   }
 
   public void updateBar (int value) {
