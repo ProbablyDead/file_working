@@ -16,3 +16,7 @@
 
 ![](./RMsrc/succsess.png)
 
+### Результат
+
+![](./RMsrc/result.png)
+
