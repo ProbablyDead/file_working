@@ -1,1 +1,1 @@
-![](RMsrc/Screen bar.gif)
+![](/RMsrc/bar.gif)
