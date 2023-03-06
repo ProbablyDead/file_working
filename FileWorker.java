@@ -10,6 +10,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import java.io.FileOutputStream;
 
+/**
+ * Класс работы с файлами
+ * @author Yakiza
+ * */
+
 public class FileWorker {
   private HashMap<Integer, Integer> table = new HashMap<>();
   private String inputPath;
@@ -19,6 +24,9 @@ public class FileWorker {
   private GUI bar;
   private boolean isDone = false;
 
+  /**
+   * Конструктор без параметров запрашивает пути к файлам у пользователя в консоли
+   **/
   FileWorker () {
     Scanner in = new Scanner(System.in);
 
@@ -30,15 +38,29 @@ public class FileWorker {
     in.close();
   }
 
+  /**
+   * Конструктор с двумя строками записывает два пути
+   * @param inputPath путь к исходному файлу
+   * @param outputPath путь к файлу для записи
+  */
   FileWorker (String inputPath, String outputPath) {
     this.inputPath = inputPath;
     this.outputPath = outputPath;
   }
 
+  /**
+   * Метод проверки символа на принадлежность к латинскому алфавиту
+   * @param c
+   * @return true/false
+  */
   private boolean isLatinLetter (int c) {
     return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
   }
 
+  /**
+   * Метод добавления символа в хэш-таблицу
+   * @param c символ
+  */
   private void addValue (int c) {
     if (table.containsKey(c)) {
       int count = table.get(c);
@@ -49,14 +71,22 @@ public class FileWorker {
         table.put(c, 1);
       }
     }
-    bar.updateBar((int)(++addedSymbols/inputFileSize*100));
+    bar.setBarValue((int)(++addedSymbols/inputFileSize*100));
   }
 
+  /**
+   * Метода добавления строки в хэш-таблицу
+   * @param str строка
+  */
   private void updateMapWtString (String str) {
     str.chars().forEach(c -> addValue(c));
     isDone = true;
   }
 
+  /**
+   * Метод получения строки для записи ее в выходной файл
+   * @return искомая строка
+  */
   private String getResultString () {
     String result = "";
 
@@ -67,6 +97,10 @@ public class FileWorker {
     return result;
   }
 
+  /**
+   * Метод работы с файлом 
+   * @throws IOException
+  */
   public void checkFile () throws IOException {
 
          new SwingWorker<Void,Void>() {
