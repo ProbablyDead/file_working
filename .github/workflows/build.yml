@@ -15,5 +15,15 @@ jobs:
       matrix:
         os: [ubuntu-latest,windows-latest,macos-latest,self-hosted]
       runs-on: ${{ matrix.os }}
+      env:
+        app_name: Product_${{ matrix.os }}.jar
+      steps:
+        - name: build
+          run: javac src/Main.java 
+
+        - name: create jar
+          run: jar cmvf manifest.mf ${{ env.app_name }} * && java -jar ${{ env.app_name }}
+
+
   
   
