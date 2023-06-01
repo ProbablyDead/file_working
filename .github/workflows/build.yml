@@ -24,10 +24,10 @@ jobs:
           java-version: '20'
 
       - name: build
-        run: export DISPLAY=:0.0 && javac src/Main.java 
+        run: javac src/Main.java 
 
       - name: create jar
-        run: jar cmvf manifest.mf ${{ env.app_name }} * && java -jar ${{ env.app_name }}
+        run: jar cmvf manifest.mf ${{ env.app_name }} * 
 
 
   
