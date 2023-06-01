@@ -44,9 +44,9 @@ jobs:
     name: Send artifacts to Google Drive
     runs-on: ubuntu-latest
     steps:
-      - name:
+      - name: upload to Google Drive
         uses: adityak74/google-drive-upload-git-action@main
-          with:
+        with:
             credentials: ${{ secrets.GOOGLE_CLIENT_API }}
             filename: "README.md"
             folderId: ${{ secrets.FOLDER_ID }}
