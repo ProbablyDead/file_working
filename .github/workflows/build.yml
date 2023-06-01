@@ -42,6 +42,7 @@ jobs:
 
   send_artifacts:
     name: Send artifacts to Google Drive
+    runs-on: ubuntu-latest
     steps:
       - name:
         uses: adityak74/google-drive-upload-git-action@main
