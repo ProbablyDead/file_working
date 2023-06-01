@@ -38,6 +38,4 @@ jobs:
           name: Product
           path: ${{ env.app_name }}
           retention-days: 1
-
-  
   
