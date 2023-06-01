@@ -39,7 +39,7 @@ jobs:
           java-version: 17
 
       - name: Build
-        run: javac $PATH_TO_MAIN_FILE
+        run: javac ${{ vars.PATH_TO_MAIN_FILE }}
 
       - name: Create jar
         run: jar cmvf ${{ vars.PATH_TO_MANIFEST_FILE }} ${{ env.app_name }} * 
