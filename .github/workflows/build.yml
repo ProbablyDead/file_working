@@ -9,8 +9,19 @@ on:
   workflow_dispatch:
   
 jobs:
+  check_style:
+    name: Check style
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run java checkstyle
+        uses: nikitasavinov/checkstyle-action@0.6.0
+        with:
+          reporter: 'github-pr-check'
+          tool_name: 'testtool'
+
   build:
     name: Build
+    needs: check_style
     strategy:
       matrix:
         os: [ubuntu-latest,macos-latest]
@@ -43,6 +54,7 @@ jobs:
   send_artifacts:
     name: Send artifacts to Google Drive
     needs: build
+    runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v3
