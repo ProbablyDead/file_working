@@ -23,12 +23,21 @@ jobs:
         with:
           java-version: '20'
 
-      - name: build
+      - name: Build
         run: javac src/Main.java 
 
-      - name: create jar
+      - name: Create jar
         run: jar cmvf manifest.mf ${{ env.app_name }} * 
 
+      - name: Check
+        run: la
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: Product
+          path: ${{ env.app_name }}
+          retention-days: 1
 
   
   
