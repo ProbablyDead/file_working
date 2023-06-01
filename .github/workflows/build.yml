@@ -13,14 +13,14 @@ jobs:
     name: Check style
     runs-on: ubuntu-latest
     steps:
-      - run: ls
+      - run: cat src/Main.java
       - uses: actions/checkout@v3 
       - name: Run java checkstyle
         uses: axel-op/googlejavaformat-action@v3
         with:
           args: "--replace"
           skip-commit: true
-      - run: ls
+      - run: cat src/Main.java
 
   build:
     name: Build
