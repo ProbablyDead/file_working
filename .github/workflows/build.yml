@@ -19,8 +19,8 @@ jobs:
         app_name: Product_${{ matrix.os }}.jar
         java_setup: actions/setup-java@v1.4.4
       steps:
+        - uses: ${{ java_setup }}
         - name: build
-          uses: ${{ java_setup }}
           run: javac src/Main.java 
 
         - name: create jar
