@@ -17,6 +17,7 @@ jobs:
       - name: Run java checkstyle
         uses: axel-op/googlejavaformat-action@v3
         with:
+          args: "--lines"
           skip-commit: true
 
   build:
