@@ -13,7 +13,7 @@ jobs:
     name: build from matrix
     strategy:
       matrix:
-        os: [ubuntu-latest,windows-latest,macos-latest,self-hosted]
+        os: [ubuntu-latest,macos-latest]
     runs-on: ${{ matrix.os }}
     env:
       app_name: Product_${{ matrix.os }}.jar
