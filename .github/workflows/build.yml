@@ -17,7 +17,8 @@ jobs:
       - name: Run java checkstyle
         uses: axel-op/googlejavaformat-action@v3
         with:
-          args: "--skip-sorting-imports --replace"
+          args: "--replace"
+          skip-commit: true
       - name: Print diffs
         run: git --no-pager diff --exit-code
 
@@ -53,21 +54,21 @@ jobs:
           path: ${{ env.app_name }}
           retention-days: 1
 
-  # send_artifacts:
-  #   name: Send artifacts to Google Drive
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Download artifacts
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: Product
+  send_artifacts:
+    name: Send artifacts to Google Drive
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: Product
 
-  #     - name: Upload to Google Drive
-  #       uses: adityak74/google-drive-upload-git-action@main
-  #       with:
-  #           credentials: ${{ secrets.GOOGLE_CLIENT_API }}
-  #           filename: Product_*.jar
-  #           folderId: ${{ secrets.FOLDER_ID }}
-  #           overwrite: "true" 
+      - name: Upload to Google Drive
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+            credentials: ${{ secrets.GOOGLE_CLIENT_API }}
+            filename: Product_*.jar
+            folderId: ${{ secrets.FOLDER_ID }}
+            overwrite: "true" 
 
