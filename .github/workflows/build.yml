@@ -17,8 +17,7 @@ jobs:
       - name: Run java checkstyle
         uses: axel-op/googlejavaformat-action@v3
         with:
-          args: "--replace"
-          skip-commit: true
+          args: "--skip-sorting-imports --replace"
       - name: Print diffs
         run: git --no-pager diff --exit-code
 
