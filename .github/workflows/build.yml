@@ -18,6 +18,7 @@ jobs:
         uses: axel-op/googlejavaformat-action@v3
         with:
           args: "--skip-sorting-imports --replace"
+          github-token: ${{ secrets.TOKEN }}
 
   build:
     name: Build
