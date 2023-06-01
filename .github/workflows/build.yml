@@ -45,16 +45,16 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
         with:
           name: Product
-      - run: ls
 
-      - name: upload to Google Drive
+      - name: Upload to Google Drive
         uses: adityak74/google-drive-upload-git-action@main
         with:
             credentials: ${{ secrets.GOOGLE_CLIENT_API }}
             filename: Product_*.jar
             folderId: ${{ secrets.FOLDER_ID }}
-            overwrite: "true" # optional boolean
+            overwrite: "true" 
   
