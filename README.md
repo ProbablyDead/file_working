@@ -2,21 +2,21 @@
 
 ### Основное окно
 
-![](./RMsrc/start.png)
+![](./src/RMsrc/start.png)
 
 ### Запрос имен файлов
 
-![](./RMsrc/ask_for_file_names.png)
+![](./src/RMsrc/ask_for_file_names.png)
 
 ### Процесс выполнения
 
-![](./RMsrc/bar.gif)
+![](./src/RMsrc/bar.gif)
 
 ### Завершение
 
-![](./RMsrc/succsess.png)
+![](./src/RMsrc/succsess.png)
 
 ### Результат
 
-![](./RMsrc/result.png)
+![](./src/RMsrc/result.png)
 
