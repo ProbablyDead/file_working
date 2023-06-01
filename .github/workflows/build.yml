@@ -33,7 +33,7 @@ jobs:
         run: ls
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v3
         with:
           name: Product
           path: ${{ env.app_name }}
