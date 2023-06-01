@@ -50,11 +50,11 @@ jobs:
           name: Product
       - run: ls
 
-#       - name: upload to Google Drive
-#         uses: adityak74/google-drive-upload-git-action@main
-#         with:
-#             credentials: ${{ secrets.GOOGLE_CLIENT_API }}
-#             filename: Product*.jar
-#             folderId: ${{ secrets.FOLDER_ID }}
-#             overwrite: "true" # optional boolean
+      - name: upload to Google Drive
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+            credentials: ${{ secrets.GOOGLE_CLIENT_API }}
+            filename: Product_*.jar
+            folderId: ${{ secrets.FOLDER_ID }}
+            overwrite: "true" # optional boolean
   
