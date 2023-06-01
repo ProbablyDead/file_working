@@ -54,7 +54,7 @@ jobs:
         uses: adityak74/google-drive-upload-git-action@main
         with:
             credentials: ${{ secrets.GOOGLE_CLIENT_API }}
-            filename: ./
+            filename: Product_*.jar
             folderId: ${{ secrets.FOLDER_ID }}
             overwrite: "true" # optional boolean
   
