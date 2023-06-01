@@ -13,9 +13,7 @@ jobs:
     name: build from matrix
     strategy:
       matrix:
-        os: [ubuntu-latest,
-          # macos-latest
-        ]
+        os: [ubuntu-latest,macos-latest]
     runs-on: ${{ matrix.os }}
     env:
       app_name: Product_${{ matrix.os }}.jar
@@ -52,11 +50,11 @@ jobs:
           name: Product
       - run: ls
 
-      # - name: upload to Google Drive
-      #   uses: adityak74/google-drive-upload-git-action@main
-      #   with:
-      #       credentials: ${{ secrets.GOOGLE_CLIENT_API }}
-      #       filename: Product
-      #       folderId: ${{ secrets.FOLDER_ID }}
-      #       overwrite: "true" # optional boolean
+      - name: upload to Google Drive
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+            credentials: ${{ secrets.GOOGLE_CLIENT_API }}
+            filename: *.jar
+            folderId: ${{ secrets.FOLDER_ID }}
+            overwrite: "true" # optional boolean
   
