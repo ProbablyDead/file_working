@@ -9,36 +9,36 @@ on:
   workflow_dispatch:
   
 jobs:
-  build:
-    name: build from matrix
-    strategy:
-      matrix:
-        os: [ubuntu-latest,macos-latest]
-    runs-on: ${{ matrix.os }}
-    env:
-      app_name: Product_${{ matrix.os }}.jar
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: 17
+  # build:
+  #   name: build from matrix
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest,macos-latest]
+  #   runs-on: ${{ matrix.os }}
+  #   env:
+  #     app_name: Product_${{ matrix.os }}.jar
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-java@v3
+  #       with:
+  #         distribution: 'zulu'
+  #         java-version: 17
 
-      - name: Build
-        run: javac src/Main.java 
+  #     - name: Build
+  #       run: javac src/Main.java 
 
-      - name: Create jar
-        run: jar cmvf manifest.mf ${{ env.app_name }} * 
+  #     - name: Create jar
+  #       run: jar cmvf manifest.mf ${{ env.app_name }} * 
 
-      - name: Check
-        run: ls
+  #     - name: Check
+  #       run: ls
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: Product
-          path: ${{ env.app_name }}
-          retention-days: 1
+  #     - name: Upload artifacts
+  #       uses: actions/upload-artifact@v3.1.2
+  #       with:
+  #         name: Product
+  #         path: ${{ env.app_name }}
+  #         retention-days: 1
 
   send_artifacts:
     name: Send artifacts to Google Drive
@@ -47,12 +47,13 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: Product
+      - run: ls
 
-      - name: upload to Google Drive
-        uses: adityak74/google-drive-upload-git-action@main
-        with:
-            credentials: ${{ secrets.GOOGLE_CLIENT_API }}
-            filename: Product
-            folderId: ${{ secrets.FOLDER_ID }}
-            overwrite: "true" # optional boolean
+      # - name: upload to Google Drive
+      #   uses: adityak74/google-drive-upload-git-action@main
+      #   with:
+      #       credentials: ${{ secrets.GOOGLE_CLIENT_API }}
+      #       filename: Product
+      #       folderId: ${{ secrets.FOLDER_ID }}
+      #       overwrite: "true" # optional boolean
   
