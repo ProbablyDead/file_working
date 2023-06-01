@@ -39,4 +39,15 @@ jobs:
           name: Product
           path: ${{ env.app_name }}
           retention-days: 1
+
+  send_artifacts:
+    name: Send artifacts to Google Drive
+    steps:
+      - name:
+        uses: adityak74/google-drive-upload-git-action@main
+          with:
+            credentials: ${{ secrets.GOOGLE_CLIENT_API }}
+            filename: "README.md"
+            folderId: ${{ secrets.FOLDER_ID }}
+            overwrite: "true" # optional boolean
   
