@@ -14,18 +14,18 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest,windows-latest,macos-latest,self-hosted]
-      runs-on: ${{ matrix.os }}
-      env:
-        app_name: Product_${{ matrix.os }}.jar
-        java_setup: actions/setup-java@v1.4.4
-      steps:
-        - uses: ${{ java_setup }}
-        - name: build
-          run: javac src/Main.java 
+    runs-on: ${{ matrix.os }}
+    env:
+      app_name: Product_${{ matrix.os }}.jar
+      java_setup: actions/setup-java@v1.4.4
+    steps:
+      - uses: ${{ java_setup }}
 
-        - name: create jar
-          uses: ${{ java_setup }}
-          run: jar cmvf manifest.mf ${{ env.app_name }} * && java -jar ${{ env.app_name }}
+      - name: build
+        run: javac src/Main.java 
+
+      - name: create jar
+        run: jar cmvf manifest.mf ${{ env.app_name }} * && java -jar ${{ env.app_name }}
 
 
   
