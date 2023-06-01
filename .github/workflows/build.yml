@@ -10,7 +10,7 @@ on:
   
 jobs:
   build:
-    name: build from matrix
+    name: Build
     strategy:
       matrix:
         os: [ubuntu-latest,macos-latest]
@@ -43,7 +43,6 @@ jobs:
   send_artifacts:
     name: Send artifacts to Google Drive
     needs: build
-    runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v3
@@ -57,4 +56,4 @@ jobs:
             filename: Product_*.jar
             folderId: ${{ secrets.FOLDER_ID }}
             overwrite: "true" 
-  
+
