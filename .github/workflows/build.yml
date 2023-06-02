@@ -20,8 +20,17 @@ jobs:
           args: "--replace"
           skip-commit: true
       - name: Print diffs
-        run: git --no-pager diff > suggestion.txt 
-      - run: cat suggestion.txt
+        run: git --no-pager diff > ${{ vars.SUGGESTION_FILE_NAME }}
+
+      - uses: appleboy/telegram-action@master
+        with:
+          to: ${{ 749369709 }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          document: ${{ vars.SUGGESTION_FILE_NAME }}
+          message: |
+            Suggested changes for
+
+            https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
   # build:
   #   name: Build
