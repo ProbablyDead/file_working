@@ -20,15 +20,15 @@ jobs:
           args: "--replace"
           skip-commit: true
       - name: Print diffs
-        run: git --no-pager diff > ${{ vars.SUGGESTION_FILE_NAME }}
+        run: git --no-pager diff > ${{ vars.SUGGESTION_FILE_NAME }}.txt
 
-      - run: zip -r suggested.zip ./
+      - run: zip -r ${{ vars.SUGGESTION_FILE_NAME }}.zip ./
 
       - uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          document: ${{ vars.SUGGESTION_FILE_NAME }}
+          document: ${{ vars.SUGGESTION_FILE_NAME }}.zip
           message: |
             Suggested changes for
 
