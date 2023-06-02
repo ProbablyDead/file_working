@@ -34,51 +34,50 @@ jobs:
 
             https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
-  # build:
-  #   name: Build
-  #   needs: check_style
-  #   strategy:
-  #     matrix:
-  #       os: [ubuntu-latest,macos-latest]
-  #   runs-on: ${{ matrix.os }}
-  #   env:
-  #     app_name: ${{ vars.ARTIFACTS_NAME }}_${{ matrix.os }}.jar
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-java@v3
-  #       with:
-  #         distribution: 'zulu'
-  #         java-version: 17
+  build:
+    name: Build
+    needs: check_style
+    strategy:
+      matrix:
+        os: [ubuntu-latest,macos-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      app_name: ${{ vars.ARTIFACTS_NAME }}_${{ matrix.os }}.jar
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 17
 
-  #     - name: Build
-  #       run: javac ${{ vars.PATH_TO_MAIN_FILE }}
+      - name: Build
+        run: javac ${{ vars.PATH_TO_MAIN_FILE }}
 
-  #     - name: Create jar
-  #       run: jar cmvf ${{ vars.PATH_TO_MANIFEST_FILE }} ${{ env.app_name }} * 
+      - name: Create jar
+        run: jar cmvf ${{ vars.PATH_TO_MANIFEST_FILE }} ${{ env.app_name }} * 
 
-  #     - name: Upload artifacts
-  #       uses: actions/upload-artifact@v3.1.2
-  #       with:
-  #         name: ${{ vars.ARTIFACTS_NAME }}
-  #         path: ${{ env.app_name }}
-  #         retention-days: 1
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: ${{ vars.ARTIFACTS_NAME }}
+          path: ${{ env.app_name }}
+          retention-days: 1
 
-  # send_artifacts:
-  #   name: Send artifacts to Google Drive
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Download artifacts
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: ${{ vars.ARTIFACTS_NAME }}
+  send_artifacts:
+    name: Send artifacts to Google Drive
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ vars.ARTIFACTS_NAME }}
 
-  #     - name: Upload to Google Drive
-  #       uses: adityak74/google-drive-upload-git-action@main
-  #       with:
-  #           credentials: ${{ secrets.GOOGLE_CLIENT_API }}
-  #           filename: ${{ vars.ARTIFACTS_NAME }}_*.jar
-  #           folderId: ${{ secrets.FOLDER_ID }}
-  #           overwrite: "true" 
-
+      - name: Upload to Google Drive
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+            credentials: ${{ secrets.GOOGLE_CLIENT_API }}
+            filename: ${{ vars.ARTIFACTS_NAME }}_*.jar
+            folderId: ${{ secrets.FOLDER_ID }}
+            overwrite: "true" 
 
