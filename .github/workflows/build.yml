@@ -38,6 +38,7 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
+      - run: ls
       - name: Build
         run: javac ${{ vars.PATH_TO_MAIN_FILE }}
 
