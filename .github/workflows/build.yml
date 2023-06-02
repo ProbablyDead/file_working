@@ -22,9 +22,11 @@ jobs:
       - name: Print diffs
         run: git --no-pager diff > ${{ vars.SUGGESTION_FILE_NAME }}
 
+      - run: zip -r suggested.zip ./
+
       - uses: appleboy/telegram-action@master
         with:
-          to: ${{ 749369709 }}
+          to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           document: ${{ vars.SUGGESTION_FILE_NAME }}
           message: |
