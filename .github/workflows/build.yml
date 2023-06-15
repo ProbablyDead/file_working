@@ -107,5 +107,5 @@ jobs:
     needs: docker
     runs-on: self-hosted
     steps:
-      - run: java
+      - run: echo 1
 
