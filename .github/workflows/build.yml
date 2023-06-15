@@ -102,3 +102,10 @@ jobs:
           file: ./Dockerfile
           tags: ${{ vars.DOCKER_TAG }}
 
+  deploy_container:
+    name: Deploing
+    needs: docker
+    runs-on: self-hosted
+    steps:
+      - run: ls
+
