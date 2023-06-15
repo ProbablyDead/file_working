@@ -1,5 +1,5 @@
 FROM openjdk:21
-COPY . ./application
+ADD . ./application
 WORKDIR /application
 CMD [ "javac", "src/Main.java" ]
 
