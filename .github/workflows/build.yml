@@ -96,8 +96,7 @@ jobs:
       - name: Build and push docker image
         uses: docker/build-push-action@v4
         with:
-          push: false
-          # push: true
+          push: true
           context: .
           file: ./Dockerfile
           tags: ${{ vars.DOCKER_TAG }}
