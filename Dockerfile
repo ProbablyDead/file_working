@@ -1,5 +1,5 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:21
 COPY . ./application
 WORKDIR /application
-CMD ["la"]
+CMD [ "javac", "src/Main.java" ]
 
