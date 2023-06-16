@@ -9,6 +9,7 @@ on:
   workflow_dispatch:
 
 env:
+  - uses: actions/checkout@v3 
   DOCKER_TAG: ${{ secrets.DOCKER_TAG }}:$(git rev-parse --short HEAD)
   
 jobs:
