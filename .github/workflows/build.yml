@@ -98,7 +98,7 @@ jobs:
       #     password: ${{ secrets.DOCKERHUB_ID }}
 
       # - run: ${{ env.DOCKER_TAG }}
-      - run: echo $(git rev-parse --short HEAD)
+      - run: TAG=$(git rev-parse --short HEAD)
       # - name: Build and push docker image
       #   uses: docker/build-push-action@v4
       #   with:
