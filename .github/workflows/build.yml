@@ -99,7 +99,7 @@ jobs:
         with:
           push: true
           context: .
-          platform: linux/arm64
+          platforms: linux/arm64
           file: ./Dockerfile
           tags: ${{ vars.DOCKER_TAG }}
 
