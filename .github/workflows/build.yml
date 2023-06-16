@@ -104,7 +104,7 @@ jobs:
 
   deploy_container:
     name: Deploing
-    # needs: docker
+    needs: docker
     runs-on: self-hosted
     steps:
       - run: echo
