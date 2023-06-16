@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  DOCKER_TAG: $(git rev-parse --short HEAD)
+  DOCKER_TAG: ${{ vars.DOCKER_TAG_PREFIX }}:$((git rev-parse --short HEAD))
   
 jobs:
   # check_style:
