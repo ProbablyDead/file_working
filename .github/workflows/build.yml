@@ -105,6 +105,7 @@ jobs:
           platforms: linux/arm64
           file: ./Dockerfile
           tags: ${{ env.DOCKER_TAG }}
+      - run: echo ${{ env.DOCKER_TAG }}
 
   deploy_container:
     name: Deploing
