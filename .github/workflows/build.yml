@@ -107,5 +107,5 @@ jobs:
     # needs: docker
     runs-on: self-hosted
     steps:
-      - run: pwd
+       - uses: actions/checkout@v3
 
