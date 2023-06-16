@@ -7,6 +7,9 @@ on:
     branches: [ "master" ]
 
   workflow_dispatch:
+
+env:
+  DOCKER_TAG: ${{ secrets.DOCKER_TAG }}:$(git rev-parse --short HEAD)"
   
 jobs:
   check_style:
