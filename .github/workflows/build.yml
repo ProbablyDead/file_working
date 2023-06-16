@@ -111,5 +111,5 @@ jobs:
         run: docker pull ${{ vars.DOCKER_TAG }}
 
       - name: Run
-        run: docker run ${{ vars.DOCKER_TAG }}
+        run: docker run --platform linux/arm64 ${{ vars.DOCKER_TAG }}
 
