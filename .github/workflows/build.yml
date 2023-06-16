@@ -107,6 +107,9 @@ jobs:
     needs: docker
     runs-on: self-hosted
     steps:
-      - run: echo
-       
+      - name: Pull
+        run: docker pull ${{ vars.DOCKER_TAG }}
+
+      - name: Run
+        run: docker run ${{ vars.DOCKER_TAG }}
 
