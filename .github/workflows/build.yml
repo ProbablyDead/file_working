@@ -111,6 +111,5 @@ jobs:
         run: docker pull ${{ vars.DOCKER_TAG }}
 
       - name: Run
-        run: pwd
-        # run: docker run ${{ vars.DOCKER_TAG }}
+        run: docker run ${{ vars.DOCKER_TAG }}
 
