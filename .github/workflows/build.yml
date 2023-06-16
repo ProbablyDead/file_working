@@ -8,9 +8,6 @@ on:
 
   workflow_dispatch:
 
-env:
-  DOCKER_TAG: $(git rev-parse --short HEAD)
-  
 jobs:
   # check_style:
   #   name: Check style
@@ -25,87 +22,87 @@ jobs:
   #     - name: Print diffs
   #       run: git --no-pager diff > ${{ vars.SUGGESTION_FILE_NAME }}.txt
 
-#       - run: zip -r ${{ vars.SUGGESTION_FILE_NAME }}.zip ./
+  #     - run: zip -r ${{ vars.SUGGESTION_FILE_NAME }}.zip ./
 
-#       - uses: appleboy/telegram-action@master
-#         with:
-#           to: ${{ secrets.TELEGRAM_TO }}
-#           token: ${{ secrets.TELEGRAM_TOKEN }}
-#           document: ${{ vars.SUGGESTION_FILE_NAME }}.zip
-#           message: |
-#             Suggested changes for
+  #     - uses: appleboy/telegram-action@master
+  #       with:
+  #         to: ${{ secrets.TELEGRAM_TO }}
+  #         token: ${{ secrets.TELEGRAM_TOKEN }}
+  #         document: ${{ vars.SUGGESTION_FILE_NAME }}.zip
+  #         message: |
+  #           Suggested changes for
 
-#             https://github.com/${{ github.repository }}/commit/${{github.sha}}
+  #           https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
-#   build:
-#     name: Build
-#     needs: check_style
-#     strategy:
-#       matrix:
-#         os: [ubuntu-latest,macos-latest]
-#     runs-on: ${{ matrix.os }}
-#     env:
-#       app_name: ${{ vars.ARTIFACTS_NAME }}_${{ matrix.os }}.jar
-#     steps:
-#       - uses: actions/checkout@v3
-#       - uses: actions/setup-java@v3
-#         with:
-#           distribution: 'zulu'
-#           java-version: 17
+  # build:
+  #   name: Build
+  #   needs: check_style
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest,macos-latest]
+  #   runs-on: ${{ matrix.os }}
+    # env:
+    #   app_name: ${{ vars.ARTIFACTS_NAME }}_${{ matrix.os }}.jar
+    # steps:
+    #   - uses: actions/checkout@v3
+    #   - uses: actions/setup-java@v3
+    #     with:
+    #       distribution: 'zulu'
+    #       java-version: 17
 
-#       - name: Build
-#         run: javac ${{ vars.PATH_TO_MAIN_FILE }}
+    #   - name: Build
+    #     run: javac ${{ vars.PATH_TO_MAIN_FILE }}
 
-#       - name: Create jar
-#         run: jar cmvf ${{ vars.PATH_TO_MANIFEST_FILE }} ${{ env.app_name }} * 
+    #   - name: Create jar
+    #     run: jar cmvf ${{ vars.PATH_TO_MANIFEST_FILE }} ${{ env.app_name }} * 
 
-#       - name: Upload artifacts
-#         uses: actions/upload-artifact@v3.1.2
-#         with:
-#           name: ${{ vars.ARTIFACTS_NAME }}
-#           path: ${{ env.app_name }}
-#           retention-days: 1
+    #   - name: Upload artifacts
+    #     uses: actions/upload-artifact@v3.1.2
+    #     with:
+    #       name: ${{ vars.ARTIFACTS_NAME }}
+    #       path: ${{ env.app_name }}
+    #       retention-days: 1
 
-#   send_artifacts:
-#     name: Send artifacts to Google Drive
-#     needs: build
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Download artifacts
-        # uses: actions/download-artifact@v3
-        # with:
-        #   name: ${{ vars.ARTIFACTS_NAME }}
-
-      # - name: Upload to Google Drive
-        # uses: adityak74/google-drive-upload-git-action@main
-        # with:
-        #     credentials: ${{ secrets.GOOGLE_CLIENT_API }}
-        #     filename: ${{ vars.ARTIFACTS_NAME }}_*.jar
-        #     folderId: ${{ secrets.FOLDER_ID }}
-        #     overwrite: "true" 
-
-  # docker:
-    # name: Dockering
+  # send_artifacts:
+    # name: Send artifacts to Google Drive
     # needs: build
     # runs-on: ubuntu-latest
     # steps:
-      # - uses: actions/checkout@v3
+    #   - name: Download artifacts
+    #     uses: actions/download-artifact@v3
+    #     with:
+    #       name: ${{ vars.ARTIFACTS_NAME }}
 
-      # - name: Logging in to dockerhub
-        # uses: docker/login-action@v2
-        # with: 
-        #   username: ${{ secrets.DOCKERHUB_USERNAME }}
-        #   password: ${{ secrets.DOCKERHUB_ID }}
+    #   - name: Upload to Google Drive
+    #     uses: adityak74/google-drive-upload-git-action@main
+    #     with:
+    #         credentials: ${{ secrets.GOOGLE_CLIENT_API }}
+    #         filename: ${{ vars.ARTIFACTS_NAME }}_*.jar
+    #         folderId: ${{ secrets.FOLDER_ID }}
+    #         overwrite: "true" 
 
-      # - run: ${{ env.DOCKER_TAG }}
-      # - name: Build and push docker image
-        # uses: docker/build-push-action@v4
-        # with:
-        #   push: true
-        #   context: .
-        #   platforms: linux/arm64
-        #   file: ./Dockerfile
-        #   tags: ${{ env.DOCKER_TAG }}
+  docker:
+    name: Dockering
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Logging in to dockerhub
+        uses: docker/login-action@v2
+        with: 
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ID }}
+
+      - run: ${{ env.DOCKER_TAG }}
+      - name: Build and push docker image
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          context: .
+          platforms: linux/arm64
+          file: ./Dockerfile
+          tags: ${{ vars.DOCKER_TAG }}
 
   deploy_container:
     name: Deploing
@@ -115,8 +112,8 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Pull
-        run: docker pull ${{ env.DOCKER_TAG }}
+        run: docker pull ${{ vars.DOCKER_TAG }}
 
       - name: Run
-        run: docker run --platform linux/arm64 ${{ env.DOCKER_TAG }}
+        run: docker run --platform linux/arm64 ${{ vars.DOCKER_TAG }}
 
